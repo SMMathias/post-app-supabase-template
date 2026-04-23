@@ -4,7 +4,7 @@ import PostCard from "../components/PostCard";
 const URL = import.meta.env.VITE_SUPABASE_URL;
 const headers = {
   apikey: import.meta.env.VITE_SUPABASE_APIKEY,
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
 
 export default function HomePage() {
@@ -13,29 +13,29 @@ export default function HomePage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    async function loadPosts() {
-      // TODO:
-      // 1. Brug fetch med URL og headers
-      // 2. Konvertér response til json
-      // 3. Gem data i posts state
-      //
-      // Ekstra bagefter:
-      // - loading
-      // - try/catch
-      // - fejlbesked
-      console.log(URL, headers);
-    }
+    const loadPosts = async () => {
+      const response = await fetch(URL, {
+        headers: headers,
+      });
 
+      const data = await response.json();
+      setPosts(data);
+    };
     loadPosts();
   }, []);
 
+  // Ekstra bagefter:
+  // - loading
+  // - try/catch
   return (
     <main className="app">
       <section className="feed-intro">
         <p className="feed-eyebrow">Post App</p>
         <h1 className="page-title">Explore the latest posts</h1>
       </section>
-      {errorMessage && <p className="status-banner status-banner-error">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="status-banner status-banner-error">{errorMessage}</p>
+      )}
       {isLoading && <p className="status-msg">Loading posts...</p>}
       {!isLoading && !errorMessage && posts.length === 0 && (
         <section className="empty-state">
@@ -45,7 +45,7 @@ export default function HomePage() {
       )}
       {!isLoading && !errorMessage && posts.length > 0 && (
         <section className="post-list">
-          {posts.map(post => (
+          {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </section>

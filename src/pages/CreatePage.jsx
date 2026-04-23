@@ -16,10 +16,8 @@ export default function CreatePage() {
   async function handleSubmit(postData) {
     await fetch(URL, {
       method: "POST",
-      headers: {
-        apikey: APIKEY,
-        "Content-Type": "application/json",
-      },
+      headers: headers,
+      body: JSON.stringify(postData),
     });
     console.log(postData, URL, headers);
     navigate("/");

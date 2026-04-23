@@ -5,7 +5,7 @@ import PostForm from "../components/PostForm";
 const URL = import.meta.env.VITE_SUPABASE_URL;
 const headers = {
   apikey: import.meta.env.VITE_SUPABASE_APIKEY,
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
 
 export default function UpdatePage() {
@@ -20,8 +20,13 @@ export default function UpdatePage() {
     async function loadPost() {
       // TODO:
       // 1. Hent ét post via id
+      const response = await fetch(`${URL}/posts/${id}`, {
+        headers: headers,
+        body: JSON.stringify(loadPost),
+      });
       // 2. Brug querystring: ?id=eq.${id}
       // 3. Gem første element i post state
+      setPost(json[0]);
       //
       // Ekstra bagefter:
       // - loading
@@ -34,16 +39,19 @@ export default function UpdatePage() {
   }, [id]);
 
   async function handleSubmit(postData) {
-    // TODO:
-    // 1. Send PATCH request til post med id
+    await fetch(`${URL}?id=eq.${id}`, {
+      method: "PATCH",
+      headers: headers,
+      body: JSON.stringify(postData),
+    });
     // 2. Navigér tilbage til detail-siden ved succes
+    navigate(`/posts/${id}`);
     //
     // Ekstra bagefter:
     // - isSubmitting
     // - try/catch
     // - fejlbesked
     console.log(postData, id);
-    navigate(`/posts/${id}`);
   }
 
   if (isLoading) return <p className="status-msg">Loading post...</p>;
