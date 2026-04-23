@@ -44,7 +44,6 @@ export default function UpdatePage() {
       headers: headers,
       body: JSON.stringify(postData),
     });
-    // 2. Navigér tilbage til detail-siden ved succes
     navigate(`/posts/${id}`);
     //
     // Ekstra bagefter:

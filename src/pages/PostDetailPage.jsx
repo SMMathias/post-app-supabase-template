@@ -17,15 +17,11 @@ export default function PostDetailPage() {
 
   useEffect(() => {
     async function loadPost() {
-      // TODO:
-      // 1. Hent ét post med GET
       const response = await fetch(`${URL}?id=eq.${id}`, {
         headers: headers,
       });
-      // 2. Brug id i querystring
       const data = await response.json();
       console.log(data);
-      // 3. Gem resultat i post state
       setPost(data[0]);
       //
       // Ekstra bagefter:
